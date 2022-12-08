@@ -2,8 +2,7 @@
 
 # BDAI-Group_Project_Flight
 
-<img src="https://drive.google.com/uc?export=view&id=1LOl_-ptwR6o4H8pwVZ_kHiDHS_FoJxqd"/>
-
+<img src="https://drive.google.com/uc?export=view&id=1VcB5rkGpedt9o4WTzLLa-PGLFMKdnM7T"/>
 
 
 ## Review
