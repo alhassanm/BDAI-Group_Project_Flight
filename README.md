@@ -2,8 +2,7 @@
 
 # BDAI-Group_Project_Flight
 
-<img src="https://drive.google.com/uc?export=view&id=1VcB5rkGpedt9o4WTzLLa-PGLFMKdnM7T"/>
-
+<img src="https://drive.google.com/uc?export=view&id=1iBaR5SsYv_Lm8sXmI2FC_ahOtigY3cAs"/>
 
 ## About Dataset
 
