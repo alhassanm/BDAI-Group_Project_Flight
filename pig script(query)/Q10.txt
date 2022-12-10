@@ -1,0 +1,11 @@
+-- find the max delay for each destination airport?
+flight_details = LOAD '/user/maria_dev/Flight/flight.csv' USING PigStorage(',') as
+(Year:int,Month:int,DayofMonth:int,DayOfWeek:int,Carrier:chararray,OriginAirportID:int,OriginAirportName:chararray
+,OriginCity:chararray,OriginState:chararray,DestAirportID:int,DestAirportName:chararray,DestCity:chararray,
+DestState:chararray,CRSDepTime:float,DepDelay:float,DepDel15:int,CRSArrTime:float,ArrDelay:float,ArrDel15:int,Cancelled:int,
+DayTime_Dep:chararray,DayTime_Arr:chararray);
+
+F = Group flight_details by DestAirportName;
+CountTravel = FOREACH F GENERATE group AS DestAirportName, MAX(flight_details.ArrDelay) AS maxDelayArrive;
+
+DUMP CountTravel;

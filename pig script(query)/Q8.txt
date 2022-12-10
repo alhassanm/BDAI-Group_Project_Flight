@@ -1,0 +1,17 @@
+-- count of whether the flights are delayed or not in every destination state?
+flight_details = LOAD '/user/maria_dev/Flight/flight.csv' USING PigStorage(',') as
+(Year:int,Month:int,DayofMonth:int,DayOfWeek:int,Carrier:chararray,OriginAirportID:int,OriginAirportName:chararray
+,OriginCity:chararray,OriginState:chararray,DestAirportID:int,DestAirportName:chararray,DestCity:chararray,
+DestState:chararray,CRSDepTime:float,DepDelay:float,DepDel15:int,CRSArrTime:float,ArrDelay:float,ArrDel15:int,Cancelled:int,
+DayTime_Dep:chararray,DayTime_Arr:chararray);
+
+SPLIT flight_details INTO NoTdelay IF(ArrDelay <=0) , delay IF(ArrDelay >0);
+ND= GROUP NoTdelay BY DestState;
+D=  GROUP delay BY DestState;
+CountND = FOREACH ND GENERATE group AS DestState, COUNT(NoTdelay.ArrDelay) AS CountArrDelay ;
+CountD = FOREACH D GENERATE group AS DestState, COUNT(delay.ArrDelay) AS CountArrDelay ;
+joinAll = JOIN CountND BY DestState, CountD BY DestState;
+Al = FOREACH joinAll GENERATE CountND::DestState, CountND::CountArrDelay as NDCountArrDelay ,CountD::CountArrDelay as DCountArrDelay;
+prentOfDe = FOREACH Al GENERATE DestState, NDCountArrDelay,DCountArrDelay, ( NDCountArrDelay +DCountArrDelay);
+
+DUMP prentOfDe;

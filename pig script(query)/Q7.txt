@@ -1,0 +1,9 @@
+--Which are the cities people often go to?
+flight = LOAD '/user/maria_dev/Flight/Flight.csv' USING PigStorage(',') AS (Year:int, Month:int, DayofMonth:int, DayOfWeek:int,
+Carrier:chararray, OriginAirportID:int,OriginAirportName:chararray, OriginCity:chararray,OriginState:chararray,
+DestAirportID:int,DestAirportName:chararray,DestCity:chararray,DestState:chararray,CRSDepTime:int,DepDelay:int,
+DepDel15:float,CRSArrTime:int,ArrDelay:int,ArrDel15:int,Cancelled:int,DayTime_Dep:chararray, DayTime_Arr:chararray); 
+Q7 = group flight by DestCity;
+Cityes = FOREACH Q7 GENERATE group AS DestCity,COUNT(flight.DestCity) as CountCity;
+Sorted = ORDER Cityes BY CountCity DESC;
+dump Sorted;

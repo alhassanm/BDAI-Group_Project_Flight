@@ -1,0 +1,13 @@
+--How many flights every month??
+
+flight_details = LOAD '/user/maria_dev/Flight/flight.csv' USING PigStorage(',') as
+(Year:int,Month:int,DayofMonth:int,DayOfWeek:int,Carrier:chararray,OriginAirportID:int,OriginAirportName:chararray
+,OriginCity:chararray,OriginState:chararray,DestAirportID:int,DestAirportName:chararray,DestCity:chararray,
+DestState:chararray,CRSDepTime:float,DepDelay:float,DepDel15:int,CRSArrTime:float,ArrDelay:float,ArrDel15:int,Cancelled:int,
+DayTime_Dep:chararray,DayTime_Arr:chararray);
+
+F = Group flight_details by Month;
+
+CountTravel = FOREACH F GENERATE group AS Month, COUNT(flight_details.DepDel15) AS monthOfTravel;
+SORTUP=	ORDER CountTravel BY monthOfTravel DESC;
+DUMP SORTUP;

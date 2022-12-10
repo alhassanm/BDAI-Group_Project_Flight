@@ -1,0 +1,12 @@
+--How many flights come before the time in every destination state?
+flight_details = LOAD '/user/maria_dev/Flight/flight.csv' USING PigStorage(',') as
+(Year:int,Month:int,DayofMonth:int,DayOfWeek:int,Carrier:chararray,OriginAirportID:int,OriginAirportName:chararray
+,OriginCity:chararray,OriginState:chararray,DestAirportID:int,DestAirportName:chararray,DestCity:chararray,
+DestState:chararray,CRSDepTime:float,DepDelay:float,DepDel15:int,CRSArrTime:float,ArrDelay:float,ArrDel15:int,Cancelled:int,
+DayTime_Dep:chararray,DayTime_Arr:chararray);
+
+F = FILTER flight_details by ArrDelay <0;
+a = Group F by DestState;
+CountTravel = FOREACH a GENERATE group AS DestState,COUNT(F.ArrDelay)AS ArrDelay1 ;
+SORTUP=	ORDER CountTravel BY ArrDelay1 DESC;
+DUMP SORTUP;

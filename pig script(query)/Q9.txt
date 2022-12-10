@@ -1,0 +1,16 @@
+-- give the name of each carrier and how many flights they have
+flight_details = LOAD '/user/maria_dev/Flight/flight.csv' USING PigStorage(',') as
+(Year:int,Month:int,DayofMonth:int,DayOfWeek:int,Carrier:chararray,OriginAirportID:int,OriginAirportName:chararray
+,OriginCity:chararray,OriginState:chararray,DestAirportID:int,DestAirportName:chararray,DestCity:chararray,
+DestState:chararray,CRSDepTime:float,DepDelay:float,DepDel15:int,CRSArrTime:float,ArrDelay:float,ArrDel15:int,Cancelled:int,
+DayTime_Dep:chararray,DayTime_Arr:chararray);
+Airlines = LOAD '/user/maria_dev/Flight/Airlines.csv' USING PigStorage(',') as
+(IATA_CODE:chararray,AIRLINE:chararray);
+joinAll = JOIN flight_details BY Carrier, Airlines BY IATA_CODE;
+rename = FOREACH joinAll GENERATE Airlines::IATA_CODE AS Carrier,
+	Airlines::AIRLINE AS Name;
+
+GROUPAIRLINE= GROUP rename BY Name;
+Al = FOREACH GROUPAIRLINE GENERATE group AS Name,COUNT(rename.Carrier);
+
+dump Al;

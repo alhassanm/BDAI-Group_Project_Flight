@@ -1,0 +1,13 @@
+--how much are the delays at the arrival airport in every Destination State?
+
+flight_details = LOAD '/user/maria_dev/Flight/flight.csv' USING PigStorage(',') as
+(Year:int,Month:int,DayofMonth:int,DayOfWeek:int,Carrier:chararray,OriginAirportID:int,OriginAirportName:chararray
+,OriginCity:chararray,OriginState:chararray,DestAirportID:int,DestAirportName:chararray,DestCity:chararray,
+DestState:chararray,CRSDepTime:float,DepDelay:float,DepDel15:int,CRSArrTime:float,ArrDelay:float,ArrDel15:int,Cancelled:int,
+DayTime_Dep:chararray,DayTime_Arr:chararray);
+
+F = Group flight_details by DestState;
+
+sumOfDely = FOREACH F GENERATE group AS DestState, SUM(flight_details.ArrDel15) AS ArrivalDelay;
+
+DUMP sumOfDely;

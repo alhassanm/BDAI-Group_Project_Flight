@@ -1,0 +1,10 @@
+
+--What are the carrier services?
+
+flight = LOAD '/user/maria_dev/Flight/Flight.csv' USING PigStorage(',') AS (Year:int, Month:int, DayofMonth:int, DayOfWeek:int,
+Carrier:chararray, OriginAirportID:int,OriginAirportName:chararray, OriginCity:chararray,OriginState:chararray,
+DestAirportID:int,DestAirportName:chararray,DestCity:chararray,DestState:chararray,CRSDepTime:int,DepDelay:int,
+DepDel15:float,CRSArrTime:int,ArrDelay:int,ArrDel15:int,Cancelled:int,DayTime_Dep:chararray, DayTime_Arr:chararray); 
+Q5 = group flight by Carrier;
+CarrierS = FOREACH Q5 GENERATE group AS Carrier;
+dump CarrierS;
