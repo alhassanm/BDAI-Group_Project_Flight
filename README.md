@@ -29,6 +29,8 @@ The U.S. Department of Transportation's (DOT) Bureau of Transportation Statistic
 > * ArrDelay15: A binary indicator that arrival was delayed by more than 15 minutes (and therefore considered "late")
 > * Cancelled: A binary indicator that the flight was cancelled
 
+## Resources
+https://www.kaggle.com/datasets/aksathomas/2013-us-flight-data?select=Airlines.csv
 
 ## :octocat:	Team Memebers
 
